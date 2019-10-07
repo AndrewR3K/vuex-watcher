@@ -1,6 +1,8 @@
 .DS_Store
+app-example/node_modules/
 node_modules/
 dist/
+app-example/dist/
 npm-debug.log
 .vscode/
 yarn.lock
