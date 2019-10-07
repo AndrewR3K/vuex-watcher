@@ -1,0 +1,23 @@
+{
+  "name": "vuex-watcher",
+  "version": "0.0.1",
+  "description": "A Vuex state watcher to empower Vue.js developers to easily utilize Vuex subscribers similar to vue's data prop watcher",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo TODO: ADD a build script"
+  },
+  "keywords": [
+    "Vuex",
+    "vue",
+    "state",
+    "store",
+    "watcher",
+    "watch",
+    "listener"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/andrewr3k/vuex-watcher.git"
+  },
+  "license": "MIT"
+}

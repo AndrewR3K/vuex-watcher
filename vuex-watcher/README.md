@@ -17,7 +17,9 @@ _This is compatible with Vue 2.*_
 
 ## NPM Install
 
--- Comming very soon!
+```bash
+$ npm install vuex-watcher
+```
 
 ### Local Clone
 $ git clone https://github.com/AndrewR3K/vuex-watcher.git vuex-watcher
