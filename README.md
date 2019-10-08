@@ -20,24 +20,12 @@ _This is compatible with Vue 2.*_
 -- Comming very soon!
 
 ### Local Clone
+
+```bash
 $ git clone https://github.com/AndrewR3K/vuex-watcher.git vuex-watcher
 
 $ cd vuex-watcher
 $ npm install
-```
-
-## Usage
-TODO: Write better usage docks
-
-### Build and Start
-*This is reserved for our Docker deployment system*
-
-``` bash
-$ npm install
-
-$ npm run build
-
-$ npm start
 ```
 
 ### Development
@@ -105,5 +93,3 @@ Options: 'development', 'production'
   ]
 }
 ```
-
-## License
