@@ -30,20 +30,6 @@ $ cd vuex-watcher
 $ npm install
 ```
 
-## Usage
-TODO: Write better usage docks
-
-### Build and Start
-*This is reserved for our Docker deployment system*
-
-``` bash
-$ npm install
-
-$ npm run build
-
-$ npm start
-```
-
 ### Development
 
 ```bash
@@ -109,5 +95,3 @@ Options: 'development', 'production'
   ]
 }
 ```
-
-## License
