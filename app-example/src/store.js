@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import VueWatcher from '../../src';
+import VueWatcher from 'vuex-watcher';
+
 Vue.use(Vuex)
 
 let messageWatcher = (val, oldVal) => {

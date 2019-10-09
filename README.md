@@ -1,5 +1,7 @@
 # Vuex-Watcher
-![ ![Release Number]()](https://img.shields.io/badge/Release-0.0.1-%233fbced.svg) 
+![ ![Release Number]()](https://img.shields.io/badge/Release-0.1.3-%233fbced.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 > Vue-Watcher was created to empower Vue.js developers to easily utilize Vuex subscribers similalr to vue's data prop watcher 
 
 _This is compatible with Vue 2.*_

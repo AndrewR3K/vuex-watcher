@@ -1,0 +1,10 @@
+{
+  "env": {
+    "development": {
+      "presets": []
+    },
+    "production": {
+      "presets": ["minify"]
+    }
+  }
+}

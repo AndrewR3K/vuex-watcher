@@ -8,7 +8,7 @@ export default class VueWatcher {
     return this._install.bind(this)
   }
 
-  _install = store => {
+  _install (store) {
     const fields = []
     // Warn user that they are in development mode
     if (!this.isprod) this.logger.warn(`You are currently in Developer Mode`)
