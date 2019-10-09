@@ -5,7 +5,7 @@ export default class VueWatcher {
     this._listeners = opts.watches
     this.isprod = opts.environment === 'production'
     this.logger = new VueWatcherLogger()
-    return this._install
+    return this._install.bind(this)
   }
 
   _install = store => {
