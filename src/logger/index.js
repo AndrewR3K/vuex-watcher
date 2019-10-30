@@ -1,8 +1,6 @@
-
-export default class VueWatcherLogger {
+export class WatcherLogger {
   constructor() {
-    this.pluginID = '[Vue-Watcher]'
-    return
+    this.pluginID = '[Vuex-Watcher]'
   }
 
   warn (msg) {
@@ -10,10 +8,14 @@ export default class VueWatcherLogger {
   }
 
   error (err) {
-    throw new Error(`${this.pluginID} ${err}`)
+    console.error(this.pluginID, err)
   }
 
   log (msg) {
     console.warn(this.pluginID, msg)
+  }
+
+  info(msg) {
+    console.log('%c %s %s ', 'color: #2366EC;', this.pluginID, msg);
   }
 }

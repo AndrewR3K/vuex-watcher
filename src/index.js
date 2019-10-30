@@ -1,51 +1,77 @@
-import VueWatcherLogger from './logger'
+import { Watchers } from './watchers'
+import { WatcherKernel } from './kernel';
+import { EventTypes } from './types';
 
-export default class VueWatcher {
+export default class VuexWatcher extends WatcherKernel {
   constructor(opts) {
-    this._listeners = opts.watches
-    this.isprod = opts.environment === 'production'
-    this.logger = new VueWatcherLogger()
-    return this._install.bind(this)
-  }
-
-  _install (store) {
-    const fields = []
+    super(opts);
     // Warn user that they are in development mode
-    if (!this.isprod) this.logger.warn(`You are currently in Developer Mode`)
-   
-    // Install the state and getters listeners
-    this._listeners.forEach(listen => {
-      // Check if a valid type is being used
-      let type = Object.getOwnPropertyNames(listen).filter(prop => prop !== 'cb')
-      let validtype = (listen.state || listen.getter) && type.length === 1
-      if (validtype) {
-        fields.push(listen)
-        if (!this.isprod) {
-          this.logger.log(`Listener Enabled: (${type}) => ${listen[type]}`)
-        }
-      } else {
-        let invalid = Object.getOwnPropertyNames(listen).filter(prop => prop !== 'cb' && prop !== 'state' && prop !== 'getter')
-        if (!this.isprod) this.logger.warn(`"${invalid}" ${invalid.length > 1 ? 'are not valid watcher types' : 'is not a valid watcher type'}`)
-      }
-    })
+    if (!this.isLogFriendly()) {
+      this.logger.info(`You are currently in Developer Mode`)
+    }
 
-    fields.reduce(this._setListener.bind(this), store)
+    this.watchers = new Watchers(opts.watches)
+    return this.installWatchersOnStore.bind(this)
   }
 
-  _setListener(accumulator, { state, getter, cb }) {
-    // the user is not allowed to pass both a state and a getter in one
-    // `watches` entry
-    if (state && getter) {
-      throw this.logger.error(
-        `Cannot have a watcher on both a state variable "${state}" and getters "${getter}"`
-      )
+  // Declare `listen_` as a function expression so that we can bind the class scope here
+  installWatchersOnStore(store) {
+    if (this.isLogFriendly()) {
+      const invalids = this.watchers.getInvalidArgs()
+
+      for (let watcher of this.watchers.all) {
+        for (let invalid of invalids) {
+          if (invalid.raw === watcher.raw) {
+            this.logger.warn(`[${invalid}] ${invalid.length > 1 ? 'are not valid watcher types' : 'is not a valid watcher type'}`)
+          } else {
+            this.logger.info(`Watcher Enabled: (${watcher.type}) => ${watcher.name}`)
+          }
+        }
+      }
     }
-    // install the listener in the store
-    accumulator.watch(
-      (_state, _getters) => state ? _state[state] : _getters[getter],
-      (_val, _oldVal) => cb(_val, _oldVal)
+
+    // Install the state and getters watchers by reducing `watches` arg
+    // into the `store`
+    const gettersAndState = [...this.watchers.fields, ...this.watchers.getters]
+    gettersAndState.reduce(this.setListenerOnStore, store)
+
+    // Install the actions and mutations listeners
+    this.setSubscriberOnStore(store, this.watchers.actions)
+    this.setSubscriberOnStore(store, this.watchers.mutations)
+
+    return store;
+  }
+
+  /**
+   * This array reduce function applied when installing `getter`s and
+   * `state`s into  the `store`
+   * @param {Object} store The accumulator 
+   * @param {Object} param1 The `watcher` argument being installed
+   */
+  setListenerOnStore(store, { name, type, cb }) {
+    const isGetter = (type === EventTypes.Getter)
+
+    // Install the listener in the store
+    store.watch(
+      (state, getters) => !(isGetter) ? state[name] : getters[name],
+      (val, oldVal) => cb(val, oldVal, store.state)
     )
-    // return the `store` to pass to the next `fields` listener
-    return accumulator
+
+    // Return the `store` to pass to the next `fields` listener
+    return store;
+  }
+
+  setSubscriberOnStore(store, arr) {
+    const subscriber = arr[0] && arr[0].type
+
+    if (typeof subscriber === 'string') {
+      store[subscriber](function (event, state) {
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].name === event.type) {
+            arr[i].cb(event.payload, state)
+          }
+        }
+      })
+    }
   }
 }
