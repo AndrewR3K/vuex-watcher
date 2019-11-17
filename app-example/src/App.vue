@@ -108,8 +108,8 @@ input {
 }
 
 #footer {
-  position: absolute;
-  bottom: 10px;
+  position: relative;
+  margin-top: 15px;
   left: 0;
   right: 0;
 }

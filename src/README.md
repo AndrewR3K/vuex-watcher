@@ -55,20 +55,24 @@ _An in-depth example application can be found within /example folder of this rep
 
 ### General Usage
 ```javascript
-import VueWatcher from 'vuex-watcher';
-const myVueWatcher = new VueWatcher({
+import VuexWatcher from 'vuex-watcher';
+
+const watcherPlugin = new VuexWatcher({
   environment: 'development',
   watches: [
     {
       getter: 'getactive',
-      cb: (val) => console.log(`Running getters' "getMsg" callback => ${val}`)
+      cb: (val, oldVal) => console.log(`Running getters "getMsg" callback => Was: ${oldVal}, Now: ${val}`)
     }
   ]
-})
+});
+
+store.commit('UPDATE_TEXT', 'It is Day.')
+// Outputs: Running getters "getMsg" callback => Was: Night, Now: It is day.
 
 export default new Vuex.Store({
-  plugins: [myVueWatcher]
-})
+  plugins: [watcherPlugin]
+});
 ```
 
 ### Environment
@@ -84,27 +88,35 @@ Options: 'development', 'production'
 
 ### Watcher Types
 
-#### State
+#### Actions
 ```javascript
 {
-  watches: [
-    {
-      state: 'text',
-      cb: (val) => console.log(`Running state "text" callback => ${val}`)
-    }
-  ]
+  action: 'myAction',
+  cb: (payload, preState) => { /* logic */ }
 }
 ```
 
 #### Getters
 ```javascript
 {
-  watches: [
-    {
-      getter: 'getactive',
-      cb: (val) => console.log(`Running getters "getMsg" callback => ${val}`)
-    }
-  ]
+  getter: 'getactive',
+  cb: (val, oldVal) => console.log(`Running getters "getMsg" callback => Was: ${oldVal}, Now: ${val}`)
+}
+```
+
+#### Mutation
+```javascript
+{
+  mutation: 'UPDATE_TEXT',
+  cb: (payload, postState) => { /* logic */ }
+}
+```
+
+#### State
+```javascript
+{
+  state: 'text',
+  cb: (val, oldVal) => console.log(`Running state "text" callback => Was: ${oldVal}, Now: ${val}`)
 }
 ```
 

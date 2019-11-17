@@ -18,6 +18,14 @@ const myVueWatcher = new VueWatcher({
     {
       getter: 'getactive',
       cb: (val) => console.log(`Running getters' "getactive" callback \nValue: ${val}`)
+    },
+    {
+      action: 'toggle',
+      cb: () => console.log('Running action subscribe callback')
+    },
+    {
+      mutation: 'UPDATE_TEXT',
+      cb: () => console.log('Running subscribe callback')
     }
   ]
 })
