@@ -5,7 +5,6 @@
   <br>
 </p>
 
-# THIS REPO IS NOT CURRENLY BEING MAINTAINED, USE AT YOUR OWN RISK
 # Vuex-Watcher
 ![ ![Release Number]()](https://img.shields.io/badge/Release-0.1.3-%233fbced.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
